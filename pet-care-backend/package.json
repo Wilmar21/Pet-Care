@@ -1,0 +1,22 @@
+{
+  "name": "pet-care",
+  "version": "1.0.0",
+  "description": "Aplicacion con Apollo Server consumiendo una API \r El servidor de Apollo se encuentra desplegado en https://\r La aplicacion toma los datos de la API https://petbackend.vercel.app/pet - https://petbackend.vercel.app/appointment\r La app fue desplegada mendiante el servicio de Vercel https://",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^3.12.1",
+    "axios": "^1.5.0",
+    "graphql": "^16.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
