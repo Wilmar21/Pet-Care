@@ -29,6 +29,7 @@ const typeDefs = gql`
         allAppointments: [Appointment]
         petByName(name: String!): Pet
         petById(id: String!): Pet
+        appointmentById(id: String!): Appointment
     }
 
     type Mutation{
@@ -46,13 +47,21 @@ const typeDefs = gql`
             pet: String!
         ): Appointment
         editPet(
+            id: String!
             name: String!
             image: String
             race: String!
             age: String!
             size: String!
         ): Pet
-        deletePet(_id: String!): String
+        deletePet(id: String!): String
+        editAppointment(
+            id: String!
+            date: String!
+            hour: String!
+            type: String!
+        ): Appointment
+        deleteAppointment(id: String!): String
     }
 `
 
@@ -78,6 +87,11 @@ const resolvers = {
             const {data: Pet} = await axios.get(`https://petbackend.vercel.app/pet/${args.id}`)
 
             return Pet
+        },
+        appointmentById: async (parent,args) => {
+            const {data: Appointment} = await axios.get(`https://petbackend.vercel.app/appointment/${args.id}`)
+
+            return Appointment
         }
     },
     Mutation: {
@@ -116,10 +130,10 @@ const resolvers = {
         },
         editPet: async (parent,args) => {
             try {
-                const {data: Pets} = await axios.get('https://petbackend.vercel.app/pet')
-                const pet = Pets.find(p => p.name === args.name)
+                /*const {data: Pets} = await axios.get('https://petbackend.vercel.app/pet')
+                const pet = Pets.find(p => p.name === args.name)*/
 
-                const {data: petUpdated} = await axios.put(`https://petbackend.vercel.app/pet/${pet._id}`, {
+                const {data: petUpdated} = await axios.put(`https://petbackend.vercel.app/pet/${args.id}`, {
                 name: args.name,
                 image: args.image,
                 race: args.race,
@@ -136,10 +150,38 @@ const resolvers = {
         },
         deletePet: async (parent,args) => {
             try {
-                const pet = await axios.delete(`https://petbackend.vercel.app/pet/${args._id}`)
+                const pet = await axios.delete(`https://petbackend.vercel.app/pet/${args.id}`)
                 if(!pet.data) return null
 
-                return "Deleted correctly"
+                return "Pet deleted correctly"
+            } catch (error) {
+                throw new Error("No se pudo eliminar")
+            }
+        },
+        editAppointment: async (parent,args) => {
+            try {
+                /*const {data: Appointments} = await axios.get('https://petbackend.vercel.app/appointment')
+                const appointment = Appointments.find(p => p.date === args.date && p.hour === args.hour)*/
+
+                const {data: appointmentUpdate} = await axios.put(`https://petbackend.vercel.app/appointment/${args.id}`, {
+                    date: args.date,
+                    hour: args.hour,
+                    type: args.type
+                })
+                if(!appointmentUpdate) return null
+
+                const aU = {...args}
+                return aU
+            } catch (error) {
+                throw new Error("No se pudo actualizar")
+            }
+        },
+        deleteAppointment: async (parent,args) => {
+            try {
+                const appointment = await axios.delete(`https://petbackend.vercel.app/appointment/${args.id}`)
+                if(!appointment.data) return null
+
+                return "Appointment deleted correctly"
             } catch (error) {
                 throw new Error("No se pudo eliminar")
             }
