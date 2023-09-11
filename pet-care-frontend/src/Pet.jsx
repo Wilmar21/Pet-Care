@@ -31,10 +31,10 @@ if (pet) {
     return(
         <div>
             <h2>{pet.name}</h2>
-            <div>{pet._id}</div>
-            <div>{pet.race}</div>
-            <div>{pet.age}</div>
-            <div>{pet.size}</div>
+            <div>ID: {pet._id}</div>
+            <div>Raza: {pet.race}</div>
+            <div>Edad: {pet.age}</div>
+            <div>Tamaño: {pet.size}</div>
             <button onClick={ ()=> setPet(null) }>Close</button>
         </div>
     )
@@ -48,7 +48,7 @@ if(pets === null) return null
             <h2>Pets</h2>
             {pets.map(pet => 
                 <div key={pet._id} onClick={()=> {showPet(pet._id)}}>
-                    {pet._id} - {pet.name} - {pet.race} - {pet.age}    
+                    Nombre: {pet.name} - Raza: {pet.race} - Edad: {pet.age}
                 </div>)}
         </div>
     )
